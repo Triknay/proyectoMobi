@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-buttons>
       <ion-button>
-        <ion-title>login</ion-title>
+        <ion-title class="bg-green-500">login</ion-title>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="secondary">
@@ -32,5 +32,18 @@
   <ion-button [routerLink]="['/perros']">Perros</ion-button>
   <ion-button [routerLink]="['/farmacia']">farmacia</ion-button>
 
-  
+  <h2 class="ion-text-center">Logear Usuario</h2>
+  <ion-item>
+    <h3>Usuario</h3>
+    <ion-label position="floating">Usuario</ion-label>
+    <ion-input type="text" [(ngModel)]="usuario"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <h3>contraseña</h3>
+    <ion-label position="floating">contraseña</ion-label>
+    <ion-input type="password" [(ngModel)]="contrasena"></ion-input>
+  </ion-item>
+  <ion-button shape="block" (click)="ValidarCredenciales()">Guarda Cambios</ion-button>
+  <ion-button shape="block" (click)="revisar()">Con mensaje {{usuario}}</ion-button>
 </ion-content>
