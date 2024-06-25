@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular'; 
-
-
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-registro',
@@ -10,32 +9,79 @@ import { AlertController } from '@ionic/angular';
 })
 export class RegistroPage implements OnInit {
 
-  usuarioRecibido: string='';
-  passwordRecibido: string='';
+  nombre: string = '';
+  apellido: string = '';
+  items: any[] = [];
 
-  nombre: any='';
-  apellido: any='';
-  selectedOption: any='';
-  selectedDate: any='';
-  usuario: any='';
-  password: any='';
-
-  constructor(private alertController: AlertController) { }
+  constructor(
+    private alertController: AlertController,
+    private localStorageService: LocalStorageService
+  ) { }
 
   ngOnInit() {
+    this.loadItems();
   }
 
-  async presentAlert(message: string) {
+  loadItems(): void {
+    this.items = this.localStorageService.getItems();
+  }
+
+  addItem(): void {
+    if (this.nombre && this.apellido) {
+      this.localStorageService.addItem({ nombre: this.nombre, apellido: this.apellido });
+      this.nombre = '';
+      this.apellido = '';
+      this.loadItems();
+      this.logItems(); // Llamar para ver los items en la consola después de agregar
+    }
+  }
+
+  async updateItem(index: number, item: any): Promise<void> {
     const alert = await this.alertController.create({
-      header: 'Mensaje',
-      message: message,
-      buttons: ['OK']
+      header: 'Actualizar Registro',
+      inputs: [
+        {
+          name: 'nombre',
+          type: 'text',
+          placeholder: 'Nombre',
+          value: item.nombre
+        },
+        {
+          name: 'apellido',
+          type: 'text',
+          placeholder: 'Apellido',
+          value: item.apellido
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Actualizar',
+          handler: data => {
+            this.localStorageService.updateItem(index, data);
+            this.loadItems();
+            this.logItems(); // Llamar para ver los items en la consola después de actualizar
+          }
+        }
+      ]
     });
 
     await alert.present();
   }
 
-  guardar() {
+  deleteItem(index: number): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+      this.localStorageService.deleteItem(index);
+      this.loadItems();
+      this.logItems(); // Llamar para ver los items en la consola después de eliminar
+    }
   }
 
+  logItems(): void {
+    const items = this.localStorageService.getItems();
+    console.log('Items en localStorage:', items);
+  }
 }

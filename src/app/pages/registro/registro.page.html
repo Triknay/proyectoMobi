@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -7,10 +7,24 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registro</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of items; let i = index">
+      <ion-label>
+        <h2>{{ item.nombre }}</h2>
+        <p>{{ item.apellido }}</p>
+      </ion-label>
+      <ion-button (click)="updateItem(i, item)" fill="outline" slot="end">Editar</ion-button>
+      <ion-button (click)="deleteItem(i)" color="danger" fill="outline" slot="end">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <ion-input placeholder="Nombre" [(ngModel)]="nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input placeholder="Apellido" [(ngModel)]="apellido"></ion-input>
+  </ion-item>
+  <ion-button expand="full" (click)="addItem()">Agregar</ion-button>
+  <ion-button expand="full" (click)="logItems()">Mostrar Items en Consola</ion-button>
 </ion-content>
