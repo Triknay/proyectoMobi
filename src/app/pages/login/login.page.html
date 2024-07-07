@@ -18,18 +18,17 @@
 
   <h2 class="ion-text-center">Logear Usuario</h2>
   <ion-item>
-    <h3>Usuario</h3>
     <ion-label position="floating">Usuario</ion-label>
-    <ion-input type="text" [(ngModel)]="usuario"></ion-input>
+    <ion-input [(ngModel)]="usuario"></ion-input>
   </ion-item>
 
   <ion-item>
-    <h3>contraseña</h3>
-    <ion-label position="floating">contraseña</ion-label>
-    <ion-input type="password" [(ngModel)]="contrasena"></ion-input>
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input [(ngModel)]="contrasena" type="password"></ion-input>
   </ion-item>
-  <ion-button shape="block" (click)="ValidarCredenciales()">Guarda Cambios</ion-button>
-  <ion-button shape="block" (click)="revisar()">Con mensaje {{usuario}}</ion-button>
+
+  <ion-button expand="full" (click)="revisar()">Revisar</ion-button>
+  <ion-button expand="full" (click)="ValidarCredenciales()">Validar Credenciales</ion-button>
   <app-footer></app-footer>
 </ion-content>
 

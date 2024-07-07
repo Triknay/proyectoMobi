@@ -1,6 +1,6 @@
-import { Component, OnInit, viewChild } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
-
+import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { Toast } from '@capacitor/toast';
 
 @Component({
   selector: 'app-login',
@@ -9,42 +9,40 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  usuario: string ="";
-  contrasena: string ="";
+  usuario: string = "";
+  contrasena: string = "";
 
+  constructor(private alertController: AlertController) { }
 
-  constructor(private alertController: AlertController, private toastController: ToastController) { }
+  ngOnInit() { }
 
-  ngOnInit() {
+  revisar() {
+    if (this.usuario) {
+      this.presentToast('Usuario: ' + this.usuario);
+    } else {
+      this.presentToast('Por favor ingrese el usuario');
+    }
   }
 
-  revisar(){
-    //this.presentAlert(this.usuario)
-    this.presentToast('bottom', this.usuario)
-  }
-
-  async presentAlert(mensaje:string){
+  async presentAlert(mensaje: string) {
     const alert = await this.alertController.create({
-      header: 'soy una confirmacion',
+      header: 'Confirmación',
       message: mensaje,
       buttons: ['Aceptar']
     });
     await alert.present();
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom', mensaje:string) {
-    const toast = await this.toastController.create({
-      message: mensaje,
-      duration: 2000,
-      position: position,
+  async presentToast(mensaje: string) {
+    await Toast.show({
+      text: mensaje,
+      duration: 'long', // 'short' o 'long'
+      position: 'bottom' // 'top', 'center', o 'bottom'
     });
-
-    await toast.present();
   }
 
-  ValidarCredenciales(){
+  ValidarCredenciales() {
     console.log(this.usuario);
     console.log(this.contrasena);
   }
-
 }
